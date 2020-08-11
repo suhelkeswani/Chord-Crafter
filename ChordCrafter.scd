@@ -1,7 +1,7 @@
 /*CHORD CRAFTER, VERSION 1.0
 by Suhel Keswani
 powered by SuperCollider
-Thanks for checking out my code, feel free to modify it how you like :D
+Thanks for checking out my code, feel free to modify it how you like
 I've done my best to outline what each chunk of code does with comments.
 For questions or inquiry, you can reach me at suhelkeswani@gmail.com
 */
