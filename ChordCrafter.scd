@@ -22,6 +22,8 @@ CmdPeriod.add({(0..127).do{arg n; m.noteOff(0, n)}});
 
 ~velocitySlider = Slider.new(~mainScreen, Rect(205, 25, 200, 40))
 .value_(60/127)
+.increment(factor: 1.0)
+.step_(1/127)
 .action_({
 	arg obj;
 	~velocity = obj.value * 127;
@@ -34,11 +36,32 @@ CmdPeriod.add({(0..127).do{arg n; m.noteOff(0, n)}});
 .clipLo_(0)
 .clipHi_(127)
 .font_(Font("Monaco", 20))
-.decimals_(2)
+.decimals_(0)
+.increment(factor: 1.0)
 .action_({
 	arg obj;
 	~velocitySlider.valueAction_(obj.value/127);
 });
+
+//About Screen
+~aboutScreen = Window.new("Chord Crafter", Rect.new(Window.screenBounds.width/2 -200, Window.screenBounds.height/2 - 200, 400, 400), false)
+.alwaysOnTop_(true)
+.userCanClose_(false);
+
+~aboutText = StaticText(~aboutScreen, Rect.new(25, 25, 350, 350))
+.font_(Font("Monaco", 20))
+.align_(\center)
+.string_("Version 1.0, Developed by Suhel Keswani, June 2020, Powered by SuperCollider. Special Thanks to Eli Fieldsteel and Bruno Ruviaro for their online resources pertaining to programming in sclang. For inquiry or feedback, email developer at suhelkeswani@gmail.com");
+
+//Tutorial screen
+~tutorialScreen = Window.new("Chord Crafter", Rect.new(Window.screenBounds.width/2 -400, Window.screenBounds.height/2 - 350, 800, 700), false)
+.alwaysOnTop_(true)
+.userCanClose_(false);
+
+~tutorialText = StaticText(~tutorialScreen, Rect.new(50, 75, 700, 600))
+.font_(Font("Monaco", 20))
+.align_(\center)
+.string_("The Note Velocity slider controls the attack at which the chord is played and therefore effects the volume and tone quality. The Root Note selector allows you to pick the root note of your chord. The triad selector controls the third and fifth degrees of the chord, and you can pick major (maj), minor (min), dominant (dom), diminished (dim), suspended 2nd (sus2), suspended fourth (sus4) or augmented (aug). The 7th selector allows you to pick a sixth or a seventh scale degree. The 9th selector allows you to pick a ninth scale degree. The 11th selector allows you to pick an eleventh scale degree. The 13th selector allows you thirteenth scale degree. The inversion selector allows you to pick first inversion (root note up one octave), second inversion(root note and third up one octave), and if a seventh is selected, third inversion(root note, third note, and fifth note up one octave). The octave selector allows you to select the octave of the root note and is appropriatley updated with the inversion selector. The Play button plays the selected chord and the Play Random Button randomly builds and plays a chord.");
 
 ~about = Button.new(~mainScreen, Rect(575, 25, 100, 50))
 .states_([["About", Color.black]])
@@ -47,7 +70,7 @@ CmdPeriod.add({(0..127).do{arg n; m.noteOff(0, n)}});
 	arg obj;
 	if (
 		obj.value == 0, {
-		//~infoScreen.front;
+		~aboutScreen.front;
 	};
 	)
 });
@@ -59,7 +82,7 @@ CmdPeriod.add({(0..127).do{arg n; m.noteOff(0, n)}});
 	arg obj;
 	if (
 		obj.value == 0, {
-		//~infoScreen.front;
+		~tutorialScreen.front;
 	};
 	)
 });
@@ -307,7 +330,7 @@ CmdPeriod.add({(0..127).do{arg n; m.noteOff(0, n)}});
 			{~seventhNote.item == ""} {~chord[3] = nil}
 			{~seventhNote.item == "6"} {~chord[3] = ~chord[0] + 9}
 			{~seventhNote.item == "maj7"} {~chord[3] = ~chord[0] + 11}
-			{~seventhNote.item == "7 b5"} {~chord[3] = ~chord[0] + 10; ~chord[1] = ~chord[0] + 6}
+			{~seventhNote.item == "7 b5"} {~chord[3] = ~chord[0] + 10; ~chord[2] = ~chord[0] + 6}
 			{~thirdNote.item == "maj" && ~seventhNote.item == "7"} {~chord[3] = ~chord[0] + 11}
 			{~thirdNote.item == "min" && ~seventhNote.item == "7"} {~chord[3] = ~chord[0] + 10}
 			{~thirdNote.item == "dom" && ~seventhNote.item == "7"} {~chord[3] = ~chord[0] + 10}
